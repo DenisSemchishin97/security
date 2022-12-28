@@ -1,0 +1,74 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Users</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:each="user : ${AllUsers}">-->
+<!--    <a th:href="@{/admin/users/{id}(id=${user.getId()})}" th:text="${user.getUsername()}">user</a>-->
+<!--    <br/>-->
+<!--</div>-->
+
+<!--<br/>-->
+
+<!--<form th:action="@{/admin/users/new}" th:method="GET">-->
+<!--    <input type="submit" value="Create new user!"/>-->
+<!--</form>-->
+
+<!--<br/>-->
+
+
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+</head>
+<style>table th, table td {padding: 1px;}</style>
+</head>
+<body>
+<h1>User List</h1>
+<table border="15">
+    <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Roles</th>
+        <th>Operation</th>
+        <th>Delete</th>
+
+
+    </tr>
+    <tr th:each="user : ${AllUsers}">
+        <td th:utext="${user.name}"></td>
+        <td th:utext="${user.username}"></td>
+        <td th:utext="${user.password}"></td>
+        <td th:utext="${user.roles}"></td>
+        <td><a th:href="@{'/admin/user/edit/' + ${user.id}}">Update</a> </td>
+        <td>  <form th:method="DELETE" th:action="@{/delete/{id}(id=${user.id})}">
+                <input type ="submit" value="Delete"/>
+            </form>
+        </form>
+        </td>
+
+    </tr>
+</table>
+<br>
+<a th:href="@{/admin/users/new}">Add new User </a>
+<br>
+<br>
+<br>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="logout"/>
+</form>
+</body>
+</html>
