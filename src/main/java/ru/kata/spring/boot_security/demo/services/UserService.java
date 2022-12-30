@@ -20,26 +20,26 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
-    @Autowired
-    public void SetUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+   public UserService(UserRepository userRepository) {
+        this.userRepository=userRepository;
     }
 
     @Transactional(readOnly = true)
-
     public User findByUserName(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUserName(username);
+        User user = userRepository.findByUsername(username);
+        user.getRoles().size();
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+    }
+        return user;
+
     }
 
     public Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
